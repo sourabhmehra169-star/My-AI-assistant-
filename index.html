@@ -39,9 +39,14 @@
     }
 
     async function getReply(text) {
-      // Test reply for now. Later we will connect a secure backend here.
-      return 'आपने कहा: ' + text + '\n(अभी यह टेस्ट जवाब है, असली AI जल्द जुड़ेगा।)';
-    }
+  const res = await fetch("https://nameless-union-e155.sourabhmehra169.workers.dev", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt: text })
+  });
+  const data = await res.json();
+  return data.reply || data.error || "कोई जवाब नहीं मिला";
+}
 
     async function sendMessage() {
       const text = input.value.trim();
