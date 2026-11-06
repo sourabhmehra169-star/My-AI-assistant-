@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My AI Assistant</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f2f5; margin: 0; display: flex; flex-direction: column; height: 100vh; }
+    header { background: #1f6feb; color: white; padding: 14px; text-align: center; font-size: 20px; }
+    #chat { flex: 1; overflow-y: auto; padding: 12px; }
+    .msg { max-width: 80%; padding: 10px 14px; margin: 8px 0; border-radius: 14px; line-height: 1.4; }
+    .user { background: #1f6feb; color: white; margin-left: auto; }
+    .bot { background: white; color: #222; }
+    #bar { display: flex; padding: 10px; background: white; gap: 8px; }
+    #input { flex: 1; padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 20px; }
+    button { padding: 12px 18px; font-size: 16px; background: #1f6feb; color: white; border: none; border-radius: 20px; }
+  </style>
+</head>
+<body>
+  <header>My AI Assistant</header>
+  <div id="chat">
+    <div class="msg bot">नमस्ते! मैं आपका असिस्टेंट हूँ। कुछ भी पूछिए।</div>
+  </div>
+  <div id="bar">
+    <input id="input" type="text" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script>
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('input');
+
+    function addMessage(text, who) {
+      const div = document.createElement('div');
+      div.className = 'msg ' + who;
+      div.textContent = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    async function getReply(text) {
+      // Test reply for now. Later we will connect a secure backend here.
+      return 'आपने कहा: ' + text + '\n(अभी यह टेस्ट जवाब है, असली AI जल्द जुड़ेगा।)';
+    }
+
+    async function sendMessage() {
+      const text = input.value.trim();
+      if (!text) return;
+      addMessage(text, 'user');
+      input.value = '';
+      const reply = await getReply(text);
+      addMessage(reply, 'bot');
+    }
+
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') sendMessage();
+    });
+  </script>
+</body>
+</html>
